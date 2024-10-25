@@ -33,6 +33,10 @@ const commonOptions = {
       labels: {
         usePointStyle: true,
         boxWidth: 6,
+        font: {
+          size: 12,
+          weight: 'bold'
+        }
       },
     },
     annotation: {
@@ -52,12 +56,30 @@ const commonOptions = {
       grid: {
         display: false,
       },
+      title: {
+        display: true,
+        text: 'Time',
+        font: {
+          size: 14,
+          weight: 'bold'
+        }
+      },
+      ticks: {
+        font: {
+          size: 12
+        }
+      }
     },
     y: {
       beginAtZero: true,
       grid: {
         color: 'rgba(0, 0, 0, 0.1)',
       },
+      ticks: {
+        font: {
+          size: 12
+        }
+      }
     },
   },
 };
@@ -92,12 +114,12 @@ export default function SolarChart() {
 
   const currentHour = new Date().getHours();
   const hours = Array.from({ length: 24 }, (_, i) => {
-    const hour = (currentHour + i) % 24;
-    return `${hour}:00`;
+    const hour = (currentHour + i +12) % 24;
+    return `${hour.toString().padStart(2, '0')}:00`;
   });
 
-  const scaledSolarData = data.predict_solar_power.map(value => value / 100);
-  const scaledActualSolarData = data.actual_solar_power.map(value => value / 100);
+  const scaledSolarData = data.predict_solar_power;
+  const scaledActualSolarData = data.actual_solar_power;
 
   const lastActualDataIndex = data.actual_solar_power.findLastIndex(value => value !== null);
 
@@ -135,7 +157,14 @@ export default function SolarChart() {
       ...commonOptions.scales,
       y: {
         ...commonOptions.scales.y,
-        title: { display: true, text: yAxisTitle },
+        title: { 
+          display: true, 
+          text: yAxisTitle,
+          font: {
+            size: 14,
+            weight: 'bold'
+          }
+        },
         ticks: formatCallback ? { callback: formatCallback } : {}
       }
     },
@@ -155,13 +184,13 @@ export default function SolarChart() {
     }
   });
 
-  const solarOptions = createOptions('Solar Production (x100)');
-  const consumptionOptions = createOptions('Energy Consumption');
-  const priceOptions = createOptions('Energy Price', (value) => '$' + value.toFixed(2));
+  const solarOptions = createOptions('Solar Production (Kwh)');
+  const consumptionOptions = createOptions('Energy Consumption (Kwh)');
+  const priceOptions = createOptions('Energy Price', (value) => '₹' + value.toFixed(2));
 
   // Hourly savings data
-  const savings = [5.31, 8.44, 7.42, 7.27, 15.21, 9.29, 10.36, 11.93, 6.73, 6.10, 6.32, 6.41];
-  const totalSaving = savings.reduce((acc, curr) => acc + curr, 0);
+  const savings = data.saving;
+  const totalSaving = data.total_saving;
 
   const lastSavingHourIndex = savings.length - 1;
   const savingsHours = hours.slice(0, lastSavingHourIndex + 1);
@@ -183,7 +212,14 @@ export default function SolarChart() {
       ...commonOptions.scales,
       y: {
         ...commonOptions.scales.y,
-        title: { display: true, text: 'Savings ($)' },
+        title: { 
+          display: true, 
+          text: 'Savings (₹)',
+          font: {
+            size: 14,
+            weight: 'bold'
+          }
+        },
       }
     },
     plugins: {
@@ -228,13 +264,14 @@ export default function SolarChart() {
         </div>
 
         <div className='bg-white shadow-lg rounded-lg overflow-hidden'>
+        <div className="p-4 text-center">
+            <p className="text-2xl font-bold text-green-600">Total Savings: ₹{totalSaving.toFixed(2)}</p>
+          </div>
           <h2 className="text-xl font-semibold text-gray-800 p-4 bg-gray-100">Hourly Savings</h2>
           <div className="p-4 h-[500px]">
             <Bar data={savingsData} options={savingsOptions} />
           </div>
-          <div className="p-4 text-center">
-            <p className="text-2xl font-bold text-green-600">Total Savings: ${totalSaving.toFixed(2)}</p>
-          </div>
+          
         </div>
       </div>
     </div>
