@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ant-design/plots": "^2.3.2",
+    "ant-design": "^1.0.0",
+    "axios": "^1.7.7",
     "chart.js": "^4.4.5",
     "next": "14.2.15",
     "react": "^18",

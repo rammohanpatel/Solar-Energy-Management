@@ -42,9 +42,9 @@ export default function SmartDashboard() {
                 onChange={() => toggleDevice(device.id)}
               />
               <div className="relative">
-                <div className="block bg-gray-300 w-14 h-8 rounded-full"></div>
+                <div className={`block w-14 h-8 rounded-full ${deviceStates[device.id] ? ' bg-blue-500' : 'bg-gray-300'}`}></div>
                 <div
-                  className={`absolute top-1 left-1 w-6 h-6 bg-white rounded-full transition-transform duration-300 ${deviceStates[device.id] ? 'translate-x-full bg-blue-500' : ''}`}
+                  className={`absolute top-1 left-1 w-6 h-6 bg-white rounded-full transition-transform duration-300 ${deviceStates[device.id] ? 'translate-x-full' : ''}`}
                 ></div>
               </div>
             </label>

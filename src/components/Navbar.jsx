@@ -17,9 +17,9 @@ const Navbar = () => {
                     <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
                         <Link href="/"  className="mr-5 bg-[#E2E8F0] hover:text-gray-900 border border-gray-900 px-3 py-1 rounded-full">Dashboard</Link>
                         <Link href="/smart-devices"  className="mr-5 bg-[#E2E8F0] hover:text-gray-900 border border-gray-900 px-3 py-1 rounded-full">Smart Devices</Link>
-                        <Link href="/"  className="mr-5 bg-[#E2E8F0] hover:text-gray-900 border border-gray-900 px-3 py-1 rounded-full">
+                        <span className="mr-5 bg-[#E2E8F0] hover:text-gray-900 border border-gray-900 px-3 py-1 rounded-full">
                             <NotificationDropdown />
-                        </Link>
+                        </span>
                     </nav>
                 </div>
             </header>
