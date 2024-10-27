@@ -110,8 +110,17 @@ export default function SolarChart() {
   }, []);
 
   if (error) return <div className="text-red-500 text-center mt-20">{error}</div>;
-  if (!data) return <div className="text-center mt-20">Loading...</div>;
-
+  if (data) return ( 
+    <div className="flex flex-col items-center justify-center mt-20">
+      <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500 mb-4"></div>
+      <div className="text-center text-xl font-semibold text-gray-700">Loading...</div>
+      <div className="text-center mt-5 max-w-md px-4 text-sm text-gray-600">
+        First response time may be slower (up to 1 minute) as we&apos;re using Render&apos;s(deployment platform) free plan. 
+      </div>
+      <div className="text-center mt-2 max-w-md px-4 text-md text-gray-600">Thanks for your patience!</div>
+    </div>
+  )
+  
   const currentHour = new Date().getHours();
   const hours = Array.from({ length: 24 }, (_, i) => {
     const hour = (currentHour + i +13) % 24;
