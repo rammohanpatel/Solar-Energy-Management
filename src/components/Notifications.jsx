@@ -47,11 +47,13 @@ const NotificationDropdown = () => {
     };
   }, []);
 
+  const unviewedNotifications = notifications.filter(notif => !notif.viewed);
+
   return (
     <div className="relative" ref={dropdownRef}>
       <button onClick={() => setIsOpen(!isOpen)} className="relative">
         <CiBellOn className="text-lg" />
-        {notifications.some(notif => !notif.viewed) && (
+        {unviewedNotifications.length > 0 && (
           <span className="absolute top-0 right-0 block h-2 w-2 bg-red-600 rounded-full"></span>
         )}
       </button>

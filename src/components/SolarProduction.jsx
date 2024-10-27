@@ -110,7 +110,7 @@ export default function SolarChart() {
   }, []);
 
   if (error) return <div className="text-red-500 text-center mt-20">{error}</div>;
-  if (data) return ( 
+  if (!data) return ( 
     <div className="flex flex-col items-center justify-center mt-20">
       <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500 mb-4"></div>
       <div className="text-center text-xl font-semibold text-gray-700">Loading...</div>
