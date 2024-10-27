@@ -114,7 +114,7 @@ export default function SolarChart() {
 
   const currentHour = new Date().getHours();
   const hours = Array.from({ length: 24 }, (_, i) => {
-    const hour = (currentHour + i +12) % 24;
+    const hour = (currentHour + i +13) % 24;
     return `${hour.toString().padStart(2, '0')}:00`;
   });
 
@@ -143,6 +143,18 @@ export default function SolarChart() {
         borderWidth: 2,
         fill: true,
         tension: 0.4,
+        pointRadius: (context) => {
+          return context.dataIndex === lastActualDataIndex ? 6 : 3;
+        },
+        pointBackgroundColor: (context) => {
+          return context.dataIndex === lastActualDataIndex ? 'rgba(0, 0, 255, 1)' : 'rgba(255, 99, 132, 0.2)';
+        },
+        pointBorderColor: (context) => {
+          return context.dataIndex === lastActualDataIndex ? 'rgba(255, 0, 0,1)' : 'rgba(255, 99, 132, 1)';
+        },
+        pointBorderWidth: (context) => {
+          return context.dataIndex === lastActualDataIndex ? 2 : 1;
+        },
       },
     ],
   });
@@ -200,9 +212,15 @@ export default function SolarChart() {
     datasets: [{
       label: 'Hourly Savings',
       data: savings,
-      backgroundColor: 'rgba(75, 192, 192, 0.6)',
-      borderColor: 'rgba(75, 192, 192, 1)',
-      borderWidth: 1
+      backgroundColor: (context) => {
+        return context.dataIndex === lastSavingHourIndex ? 'rgba(255, 99, 132, 0.6)' : 'rgba(75, 192, 192, 0.6)';
+      },
+      borderColor: (context) => {
+        return context.dataIndex === lastSavingHourIndex ? 'rgba(255, 99, 132, 1)' : 'rgba(75, 192, 192, 1)';
+      },
+      borderWidth: (context) => {
+        return context.dataIndex === lastSavingHourIndex ? 2 : 1;
+      },
     }]
   };
 
